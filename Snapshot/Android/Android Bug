@@ -1,4 +1,4 @@
-# Android bug 总结
+# Android bug 总结2
 
 二十一、
 EditText 和 Popupwindow结合使用，会发生 Popupwindow 抢夺 EditText 的焦点，导致 EditText 无法编辑
