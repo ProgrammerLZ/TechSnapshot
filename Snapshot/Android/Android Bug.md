@@ -1,22 +1,23 @@
 # Android bug 总结2
 
-二十一、
+### 二十一、
 EditText 和 Popupwindow结合使用，会发生 Popupwindow 抢夺 EditText 的焦点，导致 EditText 无法编辑
 解决方法
 
 popupWindow.setFocusable(false);
 
 
-二十、ListView 点击 Item 失效 没有反应
+### 二十、ListView 点击 Item 失效 没有反应
 因为 item 中有 button 或者 CheckBox 等获得了焦点， 抢占了ListView 的焦点。解决办法：在 item 中设置属性：
 android:descendantFocusability="blocksDescendants"
-十九、 视频
+
+### 十九、 视频
 1、camera.setParameters(parameters); 崩溃
      原因是设置的分辨率不对应；解决办法： 去掉
 parameters.setPreviewSize(videoWidth,videoHeight);
 2、setAudioSource failed. 崩溃
 
-十八、Android 7.0 以上 调用相机时 报错
+### 十八、Android 7.0 以上 调用相机时 报错
 
 android.os.FileUriExposedException: file:///storage/emulated/0/VIDEO/VID_20180717_101155.mp4 exposed beyond app through ClipData.Item.getUri()
 解决办法：
@@ -26,14 +27,15 @@ android.os.FileUriExposedException: file:///storage/emulated/0/VIDEO/VID_2018071
         builder.detectFileUriExposure(); 
 
 
-十七、pathDATA
+### 十七、pathDATA
 
-十六、蓝牙搜索不到附近的设备
+### 十六、蓝牙搜索不到附近的设备
 需要在APP内给应用位置权限
-十五、图片上传
+
+### 十五、图片上传
     移动端编码成Base64格式图片上传到服务器，会出现把+变成空格问题，需在后台把空格替换成+
 
-十四、从手机获取照片
+### 十四、从手机获取照片
     // 从本地相册选取图片作为头像
     private void choseHeadImageFromGallery() {
 //        Intent intentFromGallery = new Intent();
@@ -60,23 +62,25 @@ android.os.FileUriExposedException: file:///storage/emulated/0/VIDEO/VID_2018071
         }
         startActivityForResult(intentFromCapture, CODE_CAMERA_REQUEST);
     }
-十三、
+    
+### 十三、
 The APK file /Users/zhanghuagang/AndroidCode/NewProject/app/build/outputs/apk/devYingYongBao/debug/app-dev-yingYongBao-debug.apk does not exist on disk.
 Error while Installing APK
 解决：在gradle 中删除 apk 输出路径
 variant.packageApplication.outputDirectory = new File(props['APK_FOLDER'])
-👌十二、Failed resolution of: Lio/bugtags/agent/instrumentation/okhttp3/OkHttp3Instrumentation
+
+### 👌十二、Failed resolution of: Lio/bugtags/agent/instrumentation/okhttp3/OkHttp3Instrumentation
 解决：
 清理gradle 缓存
 ./gradlew -stop
 ./gradlew cleanBuildCache
 ./gradlew -p app clean build 
 
-👌一、fresc不现实圆头像；
+### 👌一、fresc不现实圆头像；
 解决：
 修改xmlns:fresco="http://schemas.android.com/apk/res-auto"
-二、使用actionBar 导航栏和背景颜色一致了 
-三、👌私有库在上传文件时，出错
+### 二、使用actionBar 导航栏和背景颜色一致了 
+### 三、👌私有库在上传文件时，出错
  FAILURE: Build failed with an exception.
 * What went wrong:
     Execution failed for task ':scanqrcode:androidJavadocs'.
@@ -91,38 +95,38 @@ task androidJavadocs(type: Javadoc) {
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
 }
 
-四、2017/04/19
+### 四、2017/04/19
 
 1、retrofit链接Https http://stackoverflow.com/questions/27716001/how-to-post-https-request-using-retrofit
 
 
-五、👌AndroidStudio 不能启动模拟器
+### 五、👌AndroidStudio 不能启动模拟器
 答：重新安装《/Users/zhanghuagang/Library/Android/sdk/extras/intel/Hardware_Accelerated_Execution_Manager/IntelHAXM_6.1.1.dmg》
 
-六、👌华为荣耀6 获取头像路径不正确
+### 六、👌华为荣耀6 获取头像路径不正确
 修改：更换启动相册方式：
 Intent intent;intent = new Intent(
         Intent.ACTION_PICK,        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);startActivityForResult(intent, Common.RESULT_PICTURE);
 
-七、👌对于token失效，请求接口刷新token，当一次调用多个接口，token都是失效状态，刷新token接口第二个调用的接口失败
+### 七、👌对于token失效，请求接口刷新token，当一次调用多个接口，token都是失效状态，刷新token接口第二个调用的接口失败
 
     答： 需要使用同步请求
             1、在方法命前面添加synchronized 关键字，整个方法同步
             2、synchronized (this) {}代码块同步在“{}”中写入要同步的内容
             3、使用ReentrantLock  进行上锁，在mLock.lock(); ...mLock.unlock();之间写需要锁定的代码；但是不建议使用呢，可能会线程卡死
-
-八、蓝牙开发：对于连接上的设备，断开链接，再次链接时，链接失败，只有重启App才可用？
+            
+### 八、蓝牙开发：对于连接上的设备，断开链接，再次链接时，链接失败，只有重启App才可用？
 答：第一次连接之后，把mac地址保存起来，第二次连接使用mac地址连接
 
-
-九、👌java.lang.StackOverflowError——>okenAPI.getTokenSys——>fileInterface.getToken(token, refreshTokenEntity).execute().body();
+### 九、👌java.lang.StackOverflowError——>okenAPI.getTokenSys——>fileInterface.getToken(token, refreshTokenEntity).execute().body();
 在同步请求时，栈溢出
 
 因为方法重复调用，进入了死循环：
 
 修改为
-十、请求地址两个地址拼接成一个错误地址。。。❓
 
-十一、WriteDescriptor 写入返回false：👌
+### 十、请求地址两个地址拼接成一个错误地址。。。❓
+
+### 十一、WriteDescriptor 写入返回false：👌
 答：因为 writeDescriptor 是异步操作，当线程繁忙的时候 会返回false 
 解决办法：作一个顺序，当onWriteDescriptor 返回值后在执行下一个descriptor。
