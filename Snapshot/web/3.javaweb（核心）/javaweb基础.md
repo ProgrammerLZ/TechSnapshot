@@ -564,10 +564,6 @@ request --> 封装了客户端所有的请求数据！
 
 ![第一次访问JSP流程图](./assets/第一次访问JSP流程图.jpg)
 
-
-
-![理解JSP原理](/LZMac/Resource/web资料/JavaWeb源码笔记/JavaWeb视频教程_day11-资料源码/day11_res/理解JSP原理.bmp)
-
 * jsp其实是一种特殊的Servlet
   > 当jsp页面第一次被访问时，服务器会把jsp编译成java文件（这个java其实是一个servlet类）
   > 然后再把java编译成.class

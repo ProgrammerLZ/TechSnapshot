@@ -26,7 +26,7 @@ IOC（控制反转）或者DI（依赖注入）是Spring的核心能力，当IOC
 
 ## Spring Boot
 
-纵然Spring已经能够为我们提供种种我们所需要的功能了，但是它依然还是不完美的。基于Spring的程序需要进行很多的配置。比如我们要开发web应用程序，我们需要考虑使用哪些Spring模块以及其他的框架，并且还需要考虑框架之间的版本是否兼容。除此之外，我们还要进行大量的基础配置，配置来配置去，这种重复操作总会让人闻到一股怀味道。
+纵然Spring已经能够为我们提供种种我们所需要的功能了，但是它依然还是不完美的。**基于Spring的程序需要进行很多的配置**。比如我们要开发web应用程序，我们需要考虑使用哪些Spring模块以及其他的框架，并且还需要考虑框架之间的版本是否兼容。除此之外，我们还要进行大量的基础配置，配置来配置去，这种重复操作总会让人闻到一股怀味道。
 
 Spring的开发者们注意到了这些问题，于是Spring Boot诞生了。
 
@@ -39,7 +39,7 @@ Spring Boot通过两个方式使得我们从上述的重复操作中得以解脱
 
 ### 一、Spring Boot Starter Project
 
-Spring Boot像是一个大管家，我们只需要告诉他，我们要做什么类型的程序，由他来负责帮助我们去做具体的事情。还是以web开发为例，我们只需要告诉Spring Boot我要干一个web项目，去给我准备相关的东西，Spring Boot就会去干事了。具体到操作上就是，我们提供给Spring Boot一个**spring-boot-starter-web**的选项，Spring Boot就会知道我们的意思，然后为我们搞生成出来一个工程，这个工程就已经具备了所有web应用程序开发所需要的所有依赖，完全没必要我们自己再去到pom中手动配置。Spring Boot的文档是这样解释的：
+Spring Boot像是一个大管家，我们只需要告诉他，我们要做什么类型的程序，由他来负责帮助我们去做具体的事情。还是以web开发为例，我们只需要告诉Spring Boot我要干一个web项目，去给我准备相关的东西，Spring Boot就会去干事了。具体到操作上就是，我们提供给Spring Boot一个**spring-boot-starter-web**的选项，Spring Boot就会知道我们的意思，然后为我们生成出来一个工程，这个工程就已经具备了所有web应用程序开发所需要的所有依赖，完全没必要我们自己再去到pom中手动配置。Spring Boot的文档是这样解释的：
 
 > Starters are a set of convenient dependency descriptors that you can include in your application. You get a one-stop-shop for all the Spring and related technology that you need, without having to hunt through sample code and copy paste loads of dependency descriptors. For example, if you want to get started using Spring and JPA for database access, just include the spring-boot-starter-data-jpa dependency in your project, and you are good to go.
 

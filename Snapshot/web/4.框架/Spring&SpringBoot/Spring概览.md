@@ -2,13 +2,13 @@
 
 ## Spring Modules
 
-![Spring Framework Architecture](https://www.tutorialspoint.com/spring/images/spring_architecture.png)
+![image-20190402133749443](./assets/image-20190402133749443.png)
 
 ## Core Container
 
 Well, Spring IoC stands for **Inversion of Control**. It is the heart of the Spring Framework. The important tasks performed by the IoC container are:
 
-1. Instantiating the bean
+1. Instantiating the bean 
 2. Wiring the beans together
 3. Configuring the beans
 4. Managing the bean’s entire life-cycle
@@ -228,3 +228,9 @@ Following is the sequence of events corresponding to an incoming HTTP request to
 **All the above-mentioned components, i.e. HandlerMapping, Controller, and ViewResolver are parts of *WebApplicationContext* w which is an extension of the plain*ApplicationContext* with some extra features necessary for web applications.**
 
 这块是个重点，Spring MVC其实是对Spring核心的一个扩充。
+
+
+
+## Logging With Log4j
+
+Log4j没用过，这块需要等之后去了解一下Log4j，日志也是比较重要的一块，需要专门找个时间好好理解一下在Java里边的日志操作以及Log4j的使用和在Spring当中两个框架的集成。

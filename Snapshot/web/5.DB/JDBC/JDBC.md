@@ -1,3 +1,7 @@
+![Java_jdbc](http://www.hollischuang.com/wp-content/uploads/2016/08/Java_jdbc.png)
+
+
+
 ## JDBC接口
 
 是程序可插拔。接口是一套规范，程序员去调用，我们要面向接口去编程。

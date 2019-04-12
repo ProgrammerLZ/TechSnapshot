@@ -1,6 +1,6 @@
 # RESTFUL API
 
-## FEatures OF A restFUL SERVICES
+## Features OF A restFUL SERVICES
 
 * Representations
 * Messages
@@ -13,3 +13,10 @@
 
 
 ### 
+
+### 动机
+
+### 设计风格
+
+
+
