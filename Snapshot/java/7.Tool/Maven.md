@@ -28,6 +28,13 @@ site
 
 Maven 插件
 
+一个maven插件是n个目标的集合。一个目标是Maven中的一个“**工作单元**”。
+
+```shell
+mvn archetype:create -DgroupId=org.sonatype.mavenbook.ch03 \
+                     -DartifactId=simple \
+```
+
 Maven中的每个任务实际上是由插件完成的
 
 
