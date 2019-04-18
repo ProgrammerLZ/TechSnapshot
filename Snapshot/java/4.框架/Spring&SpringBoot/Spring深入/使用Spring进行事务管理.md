@@ -19,7 +19,7 @@
 * 事务超时
 * 回滚规则
 
-![20160325003448793](/Users/liuzhe/Documents/project/LZ/TechSnapshot/Snapshot/web/4.Framework/Spring深入/assets/20160325003448793.png)
+![20160325003448793](./assets/20160325003448793.png)
 
 ### 传播行为
 

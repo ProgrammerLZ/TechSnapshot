@@ -85,6 +85,30 @@ Spring Boot像是一个大管家，我们只需要告诉他，我们要做什么
 
 `spring-boot-starter-web` 就是一个起步依赖。通过Maven的依赖传递，可以得到一个web工程所需要的全部基础依赖。可以理解为，`Spring Boot为我们提供了一层高级抽象，屏蔽了底层细节，在这个实例代码中，开发者所应该关注的事情是我要做一个什么样的项目，要实现这个项目的功能需要依赖哪些功能，而不用再去关心我要具体依赖哪些库，起步依赖同时也管理了所要依赖的库的版本，让开发者从繁琐的包管理中解脱出来，而更关注应用程序的业务实现。`
 
+<parent>标签的意义是，我们可以继承spring boot的一些默认的选项:
+
+* 默认编译级别为Java 1.6
+
+* 源码编码为UTF-8
+
+* 一个依赖管理节点，允许你省略普通依赖的<version>标签。
+
+如果不想从spring boot parent继承，可以这样做：
+
+```xml
+<dependencyManagement>
+<dependencies>
+        <dependency>   
+          <groupId>org.springframework.boot</groupId>         
+          <artifactId>spring-boot-dependencies</artifactId>  
+          <version>1.2.6</version>    
+          <type>pom</type>  
+          <scope>import</scope> 
+       </dependency> 
+   </dependencies>
+</dependencyManagement>
+```
+
 
 
 ### 二、Spring Boot Auto Configuration
@@ -199,9 +223,7 @@ public @interface EnableAutoConfiguration {
 
 至此，我们知道，由于我们在Spring Boot的启动类上使用了`@SpringBootApplication`注解，而该注解组合了`@EnableAutoConfiguration`注解，`@EnableAutoConfiguration`是自动化配置的“始作俑者”，而`@EnableAutoConfiguration`中Import了`@EnableAutoConfigurationImportSelector`注解，该注解的内部实现已经很接近我们要找的“真相”了。
 
-#### EnableAutoConfigurationImport
-
-#### -Selector
+#### EnableAutoConfigurationImport-Selector
 
 `EnableAutoConfigurationImportSelector`的源码在这里就不贴了，感兴趣的可以直接去看一下，其实实现也比较简单，主要就是使用Spring 4 提供的的`SpringFactoriesLoader`工具类。通过`SpringFactoriesLoader.loadFactoryNames()`读取了ClassPath下面的`META-INF/spring.factories`文件。
 

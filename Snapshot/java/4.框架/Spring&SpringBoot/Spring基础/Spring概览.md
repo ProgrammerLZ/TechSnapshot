@@ -107,6 +107,8 @@ public class InitHello implements BeanPostProcessor,Ordered {
 }
 ```
 
+
+
 ### 5.Bean Inheritance
 
 ```xml
@@ -216,7 +218,7 @@ Spring JDBC provides several approaches and correspondingly different classes to
 
 关注一下DispatcherServlet
 
-![image-20190317163907813](/Users/liuzhe/Documents/project/LZ/TechSnapshot/Snapshot/web/4.Framework/assets/image-20190317163907813.png)
+![image-20190317163907813](./assets/image-20190317163907813.png)
 
 Following is the sequence of events corresponding to an incoming HTTP request to *DispatcherServlet* −
 
