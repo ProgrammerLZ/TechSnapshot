@@ -1,13 +1,113 @@
 # Spring事务管理
 
+## 事务的基础知识
+
+事务本身有四个属性
+
+* 原子性
+* 一致性
+* 隔离性
+* 持久性
 
 
-## 必备基础知识
 
-* Spring AOP
-* XML命名空间
-* Java注解
-* 事务的概念
+重点记录一下**隔离性**。
+
+4中隔离级别
+
+* Read UnCommited
+
+  > 会产生脏读、不可重复读、幻读的问题
+
+* Read Commited
+
+  > 会产生不可重复读、幻读的问题
+
+* Repeatable Read
+
+  > 会产生幻读的问题
+
+* Serializable
+
+  > 可以规避脏读、不可重复读、幻读等问题。
+
+
+
+这四种隔离级别与**数据库性能**成反比，与**数据一致性**成正比。如下图所示：
+
+![Snip20190422_1](./assets/Snip20190422_1.png)
+
+
+
+
+
+## 事务家族的成员
+
+* Resource Manager（RM）:负责存储并管理系统数据资源的状态。
+* Transaction Processor Monitor（TPM）:一般负责在分布式场景中协调包含多个RM的事务处理。
+* Trasaction Manager（TM）：可以认为是TPM的核心模块，直接负责多**RM之间事务处理的协调**工作，并且**提供事务界定**、**事务上下文传播**等功能接口。
+* Application：以独立形式存在的或者运行于容器中的应用程序。
+
+
+
+若根据**整个事务中包含的RM的多寡**来区分事务的类型的话，可将事务分为两类：
+
+* 全局事务
+* 局部事务
+
+
+
+### 全局事务（分布式事务）
+
+若整个事务处理的过程当中有多个RM参与，那么就需要引入TPM类协调多个RM之间的事务处理。TPM采用**两阶段提交协议**来保证事务的ACID属性。
+
+![Snip20190422_2](./assets/Snip20190422_2.png)
+
+
+
+### 局部事务
+
+若整个事务处理的过程当中只有一个RM参与，就可以称当前事务为局部事务。
+
+![Snip20190422_3](./assets/Snip20190422_3.png)
+
+
+
+
+
+## Java事务管理
+
+### Java平台的局部事务支持
+
+### Java平台的分布式事务支持
+
+
+
+## Spring事务王国的架构
+
+设计的基本原则：**让事务管理的关注点与数据访问关注点相隔离**。
+
+
+
+
+
+## 使用Spring进行事务管理
+
+### 编程式事务管理
+
+两种方式：
+
+* PlatformTransactionManager
+
+![Snip20190422_5](./assets/Snip20190422_5.png)
+
+![Snip20190422_6](./assets/Snip20190422_6.png)
+
+
+
+* TransactionTemplate(推荐)
+
+![Snip20190422_7](/Users/liuzhe/Documents/project/LZ/TechSnapshot/Snapshot/java/4.框架/Spring&SpringBoot/Spring深入/assets/Snip20190422_7.png)
 
 
 
