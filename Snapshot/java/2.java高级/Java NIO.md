@@ -1,5 +1,3 @@
- 回首页
-
 # Java NIO：Buffer、Channel 和 Selector
 
 本文将介绍 Java NIO 中三大组件 **Buffer、Channel、Selector** 的使用。
@@ -8,7 +6,7 @@
 
 ## Buffer
 
-一个 Buffer 本质上是内存中的一块，我们可以将数据写入这块内存，之后从这块内存获取数据。
+一个 Buffer 本质上是**内存中的一块**，我们可以将数据写入这块内存，之后从这块内存获取数据。
 
 java.nio 定义了以下几个 Buffer 的实现，这个图读者应该也在不少地方见过了吧。
 
@@ -18,7 +16,7 @@ java.nio 定义了以下几个 Buffer 的实现，这个图读者应该也在不
 
 **我们应该将 Buffer 理解为一个数组**，IntBuffer、CharBuffer、DoubleBuffer 等分别对应 int[]、char[]、double[] 等。
 
-MappedByteBuffer 用于实现内存映射文件，也不是本文关注的重点。
+**MappedByteBuffer** 用于实现内存映射文件，也不是本文关注的重点。
 
 我觉得操作 Buffer 和操作数组、类集差不多，只不过大部分时候我们都把它放到了 NIO 的场景里面来使用而已。下面介绍 Buffer 中的几个重要属性和几个重要方法。
 
@@ -73,7 +71,7 @@ public final ByteBuffer put(byte[] src) {...}
 public ByteBuffer put(byte[] src, int offset, int length) {...}
 ```
 
-上述这些方法需要自己控制 Buffer 大小，不能超过 capacity，超过会抛 java.nio.BufferOverflowException 异常。
+上述这些方法需要自己控制 Buffer 大小，不能超过 capacity，超过会抛 **java.nio.BufferOverflowException** 异常。
 
 对于 Buffer 来说，另一个常见的操作中就是，我们要将来自 Channel 的数据填充到 Buffer 中，在系统层面上，这个操作我们称为**读操作**，因为数据是从外部（文件或网络等）读到内存中。
 

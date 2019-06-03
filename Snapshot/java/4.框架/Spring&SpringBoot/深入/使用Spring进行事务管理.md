@@ -107,7 +107,7 @@
 
 * TransactionTemplate(推荐)
 
-![Snip20190422_7](/Users/liuzhe/Documents/project/LZ/TechSnapshot/Snapshot/java/4.框架/Spring&SpringBoot/Spring深入/assets/Snip20190422_7.png)
+![Snip20190422_7](assets/Snip20190422_7.png)
 
 
 

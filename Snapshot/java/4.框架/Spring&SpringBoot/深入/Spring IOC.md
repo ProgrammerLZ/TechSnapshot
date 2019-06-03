@@ -249,8 +249,6 @@ Aware和BeanPostProcessor留出的扩展点，为什么不在第一阶段从XML�
 
 ## Spring的IOC容器的ApplicationContext
 
-
-
 ApplicationContext是Spring在BeanFactory基础容器之上，提供的另一个IoC容器实现。它拥有许多BeanFactory所没有的特性，包括
 
 * 统一的资源加载策略
