@@ -1,3 +1,5 @@
+
+
 # Java NIO：Buffer、Channel 和 Selector
 
 本文将介绍 Java NIO 中三大组件 **Buffer、Channel、Selector** 的使用。
@@ -59,6 +61,8 @@ public static ByteBuffer wrap(byte[] array) {
 
 ### 填充 Buffer
 
+#### 第一种方式：直接填充
+
 各个 Buffer 类都提供了一些 put 方法用于将数据填充到 Buffer 中，如 ByteBuffer 中的几个 put 方法：
 
 ```java
@@ -73,7 +77,9 @@ public ByteBuffer put(byte[] src, int offset, int length) {...}
 
 上述这些方法需要自己控制 Buffer 大小，不能超过 capacity，超过会抛 **java.nio.BufferOverflowException** 异常。
 
-对于 Buffer 来说，另一个常见的操作中就是，我们要将来自 Channel 的数据填充到 Buffer 中，在系统层面上，这个操作我们称为**读操作**，因为数据是从外部（文件或网络等）读到内存中。
+#### 第二种方式：通道填充(就是从通道中读数据填充)
+
+对于 Buffer 来说，另一个常见的操作中就是，我们要**将来自 Channel 的数据填充到 Buffer 中**，在系统层面上，这个操作我们称为**读操作**，因为数据是从外部（文件或网络等）读到内存中。
 
 ```java
 int num = channel.read(buf);
@@ -83,7 +89,9 @@ int num = channel.read(buf);
 
 ### 提取 Buffer 中的值
 
-前面介绍了写操作，每写入一个值，position 的值都需要加 1，所以 position 最后会指向最后一次写入的位置的后面一个，如果 Buffer 写满了，那么 position 等于 capacity（position 从 0 开始）。
+#### 填充->提取的模式切换
+
+前面介绍了写操作，每写入一个值，position 的值都需要加 1，所以 position 最后会指向**最后一次写入的位置的后面一个**，如果 Buffer 写满了，那么 position 等于 capacity（position 从 0 开始）。
 
 如果要读 Buffer 中的值，需要切换模式，从写入模式切换到读出模式。注意，通常在说 NIO 的读操作的时候，我们说的是从 Channel 中读数据到 Buffer 中，对应的是对 Buffer 的写入操作，初学者需要理清楚这个。
 
@@ -97,6 +105,8 @@ public final Buffer flip() {
     return this;
 }
 ```
+
+#### 直接读
 
 对应写入操作的一系列 put 方法，读操作提供了一系列的 get 方法：
 
@@ -115,17 +125,19 @@ public ByteBuffer get(byte[] dst)
 new String(buffer.array()).trim();
 ```
 
+#### 通道读
+
 当然了，除了将数据从 Buffer 取出来使用，更常见的操作是**将我们写入的数据传输到 Channel 中**，如通过 FileChannel 将数据写入到文件中，通过 SocketChannel 将数据写入网络发送到远程机器等。对应的，这种操作，我们称之为**写操作**。
 
 ```java
 int num = channel.write(buf);
 ```
 
-### mark() & reset()
+### mark() & reset()(基本上是成对使用)
 
-除了 position、limit、capacity 这三个基本的属性外，还有一个常用的属性就是 mark。
+除了 position、limit、capacity 这三个基本的属性外，还有一个常用的属性就是 **mark**。
 
-mark 用于临时保存 position 的值，每次调用 mark() 方法都会将 mark 设值为当前的 position，便于后续需要的时候使用。
+**mark 用于临时保存 position 的值**，每次调用 mark() 方法都会将 mark 设值为当前的 position，便于后续需要的时候使用。
 
 ```java
 public final Buffer mark() {
@@ -160,7 +172,7 @@ public final Buffer rewind() {
 
 **clear()**：有点重置 Buffer 的意思，相当于重新实例化了一样。
 
-通常，我们会先填充 Buffer，然后从 Buffer 读取数据，之后我们再重新往里填充新的数据，我们一般在重新填充之前先调用 clear()。
+**通常，我们会先填充 Buffer，然后从 Buffer 读取数据，之后我们再重新往里填充新的数据，我们一般在重新填充之前先调用 clear()**。
 
 ```java
 public final Buffer clear() {
@@ -173,7 +185,7 @@ public final Buffer clear() {
 
 **compact()**：和 clear() 一样的是，它们都是在准备往 Buffer 填充新的数据之前调用。
 
-前面说的 clear() 方法会重置几个属性，但是我们要看到，clear() 方法并不会将 Buffer 中的数据清空，只不过后续的写入会覆盖掉原来的数据，也就相当于清空了数据了。
+前面说的 clear() 方法会重置几个属性，但是我们要看到，clear() 方法并不会将 Buffer 中的数据清空，只**不过后续的写入会覆盖掉原来的数据**，也就相当于清空了数据了。
 
 而 compact() 方法有点不一样，调用这个方法以后，会先处理还没有读取的数据，也就是 position 到 limit 之间的数据（还没有读过的数据），先将这些数据移到左边，然后在这个基础上再开始写入。很明显，此时 limit 还是等于 capacity，position 指向原来数据的右边。
 
@@ -183,10 +195,10 @@ public final Buffer clear() {
 
 ![8](/Users/liuzhe/Documents/project/LZ/TechSnapshot/Snapshot/java/2.java高级/Java NIO/8.png)
 
-- FileChannel：文件通道，用于文件的读和写
-- DatagramChannel：用于 UDP 连接的接收和发送
-- SocketChannel：把它理解为 TCP 连接通道，简单理解就是 TCP 客户端
-- ServerSocketChannel：TCP 对应的服务端，用于监听某个端口进来的请求
+- **FileChannel**：文件通道，用于文件的读和写
+- **DatagramChannel**：用于 UDP 连接的接收和发送
+- **SocketChannel**：把它理解为 TCP 连接通道，简单理解就是 TCP 客户端
+- **ServerSocketChannel**：TCP 对应的服务端，用于监听某个端口进来的请求
 
 **这里不是很理解这些也没关系，后面介绍了代码之后就清晰了。还有，我们最应该关注，也是后面将会重点介绍的是 `SocketChannel` 和 `ServerSocketChannel`。**
 
@@ -200,7 +212,7 @@ Channel 经常翻译为通道，类似 IO 中的流，用于读取和写入。�
 
 ### FileChannel
 
-我想文件操作对于大家来说应该是最熟悉的，不过我们在说 NIO 的时候，其实 FileChannel 并不是关注的重点。而且后面我们说非阻塞的时候会看到，FileChannel 是不支持非阻塞的。
+我想文件操作对于大家来说应该是最熟悉的，不过我们在说 NIO 的时候，其实 FileChannel 并不是关注的重点。而且后面我们说非阻塞的时候会看到，**FileChannel 是不支持非阻塞的**。
 
 **这里算是简单介绍下常用的操作吧，感兴趣的读者瞄一眼就是了。**
 
@@ -238,7 +250,7 @@ while(buffer.hasRemaining()) {
 
 ### SocketChannel
 
-我们前面说了，我们可以将 SocketChannel 理解成一个 TCP 客户端。虽然这么理解有点狭隘，因为我们在介绍 ServerSocketChannel 的时候会看到另一种使用方式。
+我们前面说了，我们可以将 SocketChannel 理解成一个 TCP 客户端。虽然这么理解**有点狭隘**(确实有点狭隘)，因为我们在介绍 ServerSocketChannel 的时候会看到另一种使用方式。
 
 打开一个 TCP 连接：
 
@@ -259,11 +271,11 @@ SocketChannel 的读写和 FileChannel 没什么区别，就是操作缓冲区�
 
 ```java
 // 读取数据
-socketChannel.read(buffer);
+socketChannel.read(buffer);//Read data from net.
 
 // 写入数据到网络连接中
 while(buffer.hasRemaining()) {
-    socketChannel.write(buffer);
+    socketChannel.write(buffer);//Write data to net.
 }
 ```
 
@@ -289,9 +301,9 @@ while (true) {
 
 > 这里我们可以看到 SocketChannel 的第二个实例化方式
 
-到这里，我们应该能理解 SocketChannel 了，它不仅仅是 TCP 客户端，它代表的是一个网络通道，可读可写。
+到这里，我们应该能理解 SocketChannel 了，它不仅仅是 TCP 客户端，**它代表的是一个网络通道，可读可写**。
 
-ServerSocketChannel 不和 Buffer 打交道了，因为它并不实际处理数据，它一旦接收到请求后，实例化 SocketChannel，之后在这个连接通道上的数据传递它就不管了，因为它需要继续监听端口，等待下一个连接。
+**ServerSocketChannel 不和 Buffer 打交道**，因为它并不实际处理数据，它一旦接收到请求后，实例化 SocketChannel，之后在这个连接通道上的数据传递它就不管了，因为**它需要继续监听端口，等待下一个连接**。
 
 ### DatagramChannel
 
@@ -317,7 +329,7 @@ String newData = "New String to write to file..."
 
 ByteBuffer buf = ByteBuffer.allocate(48);
 buf.put(newData.getBytes());
-buf.flip();
+buf.flip();//变为读数据
 
 int bytesSent = channel.send(buf, new InetSocketAddress("jenkov.com", 80));
 ```
@@ -325,6 +337,8 @@ int bytesSent = channel.send(buf, new InetSocketAddress("jenkov.com", 80));
 ## Selector
 
 NIO 三大组件就剩 Selector 了，Selector 建立在**非阻塞**的基础之上，大家经常听到的 **多路复用** 在 Java 世界中指的就是它，用于实现一个线程管理多个 Channel。
+
+多路复用这个概念，可以再开启一篇文章。
 
 读者在这一节不能消化 Selector 也没关系，因为后续在介绍非阻塞 IO 的时候还得说到这个，这里先介绍一些基本的接口操作。
 
@@ -343,7 +357,7 @@ NIO 三大组件就剩 Selector 了，Selector 建立在**非阻塞**的基础�
    SelectionKey key = channel.register(selector, SelectionKey.OP_READ);
    ```
 
-   register 方法的第二个 int 型参数（使用二进制的标记位）用于表明需要监听哪些感兴趣的事件，共以下四种事件：
+   register 方法的第二个 int 型参数（使用二进制的标记位）**用于表明需要监听哪些感兴趣的事件**，共以下四种事件：
 
    - SelectionKey.OP_READ
 
@@ -370,11 +384,11 @@ NIO 三大组件就剩 Selector 了，Selector 建立在**非阻塞**的基础�
 Selector 的操作就是以上 3 步，这里来一个简单的示例，大家看一下就好了。之后在介绍非阻塞 IO 的时候，会演示一份可执行的示例代码。
 
 ```java
-Selector selector = Selector.open();
+Selector selector = Selector.open();//获取多路复用器
 
-channel.configureBlocking(false);
+channel.configureBlocking(false);//设置通道非阻塞
 
-SelectionKey key = channel.register(selector, SelectionKey.OP_READ);
+SelectionKey key = channel.register(selector, SelectionKey.OP_READ);//把通道感兴趣的事件向多路复用器注册
 
 while(true) {
   // 判断是否有事件准备好
@@ -413,11 +427,11 @@ while(true) {
 
 2. **selectNow()**
 
-   功能和 select 一样，区别在于如果没有准备好的通道，那么此方法会立即返回 0。
+   功能和 select 一样，区别在于如果没有准备好的通道，那么此方法会**立即返回** 0。
 
 3. **select(long timeout)**
 
-   看了前面两个，这个应该很好理解了，如果没有通道准备好，此方法会等待一会
+   看了前面两个，这个应该很好理解了，如果没有通道准备好，此方法会**等待一会**。
 
 4. **wakeup()**
 
@@ -431,7 +445,7 @@ Buffer 和数组差不多，它有 position、limit、capacity 几个重要属�
 
 Channel 基本上只和 Buffer 打交道，最重要的接口就是 channel.read(buffer) 和 channel.write(buffer)。
 
-Selector 用于实现非阻塞 IO，这里仅仅介绍接口使用。
+**Selector 用于实现非阻塞 IO**，这里仅仅介绍接口使用。
 
 # Java 非阻塞 IO 和异步 IO
 
@@ -488,7 +502,7 @@ public class SocketHandler implements Runnable {
         try {
             // 将请求数据读入 Buffer 中
             int num;
-            while ((num = socketChannel.read(buffer)) > 0) {
+            while ((num = socketChannel.read(buffer)) > 0) {//这里也可能会发生阻塞
                 // 读取 Buffer 内容之前先 flip 一下
                 buffer.flip();
 
@@ -501,6 +515,7 @@ public class SocketHandler implements Runnable {
 
                 // 回应客户端
                 ByteBuffer writeBuffer = ByteBuffer.wrap(("我已经收到你的请求，你的请求内容是：" + re).getBytes());
+                //把Buffer当中的数据写入socket通道，也可能会发生阻塞，因为通道此时可能不可写入
                 socketChannel.write(writeBuffer);
 
                 buffer.clear();
@@ -544,7 +559,7 @@ public class SocketChannelTest {
 
 那么，这个模式下的性能瓶颈在哪里呢？
 
-1. 首先，每次来一个连接都开一个新的线程这肯定是不合适的。当活跃连接数在几十几百的时候当然是可以这样做的，但如果活跃连接数是几万几十万的时候，这么多线程明显就不行了。每个线程都需要一部分内存，内存会被迅速消耗，同时，线程切换的开销非常大。
+1. 首先，**每次来一个连接都开一个新的线程**这肯定是不合适的。当活跃连接数在几十几百的时候当然是可以这样做的，但如果活跃连接数是几万几十万的时候，这么多线程明显就不行了。每个线程都需要一部分内存，内存会被迅速消耗，同时，线程切换的开销非常大。
 2. 其次，阻塞操作在这里也是一个问题。首先，accept() 是一个阻塞操作，当 accept() 返回的时候，代表有一个连接可以使用了，我们这里是马上就新建线程来处理这个 SocketChannel 了，但是，但是这里不代表对方就将数据传输过来了。所以，SocketChannel#read 方法将阻塞，等待数据，明显这个等待是不值得的。同理，write 方法也需要等待通道可写才能执行写入操作，这边的阻塞等待也是不值得的。
 
 ## 非阻塞 IO
@@ -553,17 +568,17 @@ public class SocketChannelTest {
 
 非阻塞 IO 的核心在于**使用一个 Selector 来管理多个通道**，可以是 SocketChannel，也可以是 ServerSocketChannel，将各个通道注册到 Selector 上，指定监听的事件。
 
-之后可以只用一个线程来轮询这个 Selector，看看上面是否有通道是准备好的，当通道准备好可读或可写，然后才去开始真正的读写，这样速度就很快了。我们就完全没有必要给每个通道都起一个线程。
+# 之后可以只用一个线程来轮询这个 Selector，看看上面是否有通道是准备好的，当通道准备好可读或可写，然后才去开始真正的读写，这样速度就很快了。我们就完全没有必要给每个通道都起一个线程。
 
-NIO 中 Selector 是对底层操作系统实现的一个抽象，管理通道状态其实都是底层系统实现的，这里简单介绍下在不同系统下的实现。
+**NIO 中 Selector 是对底层操作系统实现的一个抽象**，管理通道状态其实都是底层系统实现的，这里简单介绍下在不同系统下的实现。
 
 **select**：上世纪 80 年代就实现了，它支持注册 FD_SETSIZE(1024) 个 socket，在那个年代肯定是够用的，不过现在嘛，肯定是不行了。
 
-**poll**：1997 年，出现了 poll 作为 select 的替代者，最大的区别就是，poll 不再限制 socket 数量。
+**poll**：1997 年，出现了 poll 作为 select 的替代者，最大的区别就是，**poll 不再限制 socket 数量**。
 
 select 和 poll 都有一个共同的问题，那就是**它们都只会告诉你有几个通道准备好了，但是不会告诉你具体是哪几个通道**。所以，一旦知道有通道准备好以后，自己还是需要进行一次扫描，显然这个不太好，通道少的时候还行，一旦通道的数量是几十万个以上的时候，扫描一次的时间都很可观了，时间复杂度 O(n)。所以，后来才催生了以下实现。
 
-**epoll**：2002 年随 Linux 内核 2.5.44 发布，epoll 能直接返回具体的准备好的通道，时间复杂度 O(1)。
+**epoll**：2002 年随 Linux 内核 2.5.44 发布，**epoll 能直接返回具体的准备好的通道**，时间复杂度 O(1)。
 
 除了 Linux 中的 epoll，2000 年 FreeBSD 出现了 **Kqueue**，还有就是，Solaris 中有 **/dev/poll**。
 
@@ -577,17 +592,19 @@ select 和 poll 都有一个共同的问题，那就是**它们都只会告诉�
 public class SelectorServer {
 
     public static void main(String[] args) throws IOException {
+        //获取多路复用器
         Selector selector = Selector.open();
 
         ServerSocketChannel server = ServerSocketChannel.open();
         server.socket().bind(new InetSocketAddress(8080));
 
-        // 将其注册到 Selector 中，监听 OP_ACCEPT 事件
         server.configureBlocking(false);
+       // 将其注册到 Selector 中，监听 OP_ACCEPT 事件
         server.register(selector, SelectionKey.OP_ACCEPT);
 
+      	//在本线程当中进行轮询
         while (true) {
-            int readyChannels = selector.select();
+            int readyChannels = selector.select();//会阻塞
             if (readyChannels == 0) {
                 continue;
             }
@@ -611,12 +628,14 @@ public class SelectorServer {
                     // 上面一个 if 分支中注册了监听 OP_READ 事件的 SocketChannel
                     SocketChannel socketChannel = (SocketChannel) key.channel();
                     ByteBuffer readBuffer = ByteBuffer.allocate(1024);
+                  	//读取通道当中的数据
                     int num = socketChannel.read(readBuffer);
                     if (num > 0) {
                         // 处理进来的数据...
                         System.out.println("收到数据：" + new String(readBuffer.array()).trim());
                         ByteBuffer buffer = ByteBuffer.wrap("返回给客户端的数据...".getBytes());
-                        socketChannel.write(buffer);
+                       //利用socket通道，把数据写回客户端
+                      socketChannel.write(buffer);
                     } else if (num == -1) {
                         // -1 代表连接已经关闭
                         socketChannel.close();
@@ -632,11 +651,11 @@ public class SelectorServer {
 
 ## NIO.2 异步 IO
 
-More New IO，或称 NIO.2，随 JDK 1.7 发布，包括了引入异步 IO 接口和 Paths 等文件访问接口。
+More New IO，或称 NIO.2，随 JDK 1.7 发布，包括了**引入异步 IO 接口和 Paths 等文件访问接口**。
 
 异步这个词，我想对于绝大多数开发者来说都很熟悉，很多场景下我们都会使用异步。
 
-通常，我们会有一个线程池用于执行异步任务，提交任务的线程将任务提交到线程池就可以立马返回，不必等到任务真正完成。如果想要知道任务的执行结果，通常是通过传递一个回调函数的方式，任务结束后去调用这个函数。
+通常，我们会**有一个线程池用于执行异步任务**，提交任务的线程将任务提交到线程池就可以立马返回，不必等到任务真正完成。如果想要知道任务的执行结果，通常是通过传递一个回调函数的方式，任务结束后去调用这个函数。
 
 同样的原理，Java 中的异步 IO 也是一样的，都是由一个线程池来负责执行任务，然后使用回调或自己去查询结果。
 
@@ -710,9 +729,7 @@ listener.accept(attachment, new CompletionHandler<AsynchronousSocketChannel, Obj
 
 ### AsynchronousFileChannel
 
-网上关于 Non-Blocking IO 的介绍文章很多，但是 Asynchronous IO 的文章相对就少得多了，所以我这边会多介绍一些相关内容。
-
-首先，我们就来关注异步的文件 IO，前面我们说了，文件 IO 在所有的操作系统中都不支持非阻塞模式，但是我们可以对文件 IO 采用异步的方式来提高性能。
+首先，我们就来关注异步的文件 IO，前面我们说了，**文件 IO 在所有的操作系统中都不支持非阻塞模式**，但是我们可以对文件 IO 采用异步的方式来提高性能。
 
 下面，我会介绍 AsynchronousFileChannel 里面的一些重要的接口，都很简单，读者要是觉得无趣，直接滑到下一个标题就可以了。
 
@@ -836,6 +853,7 @@ public class Server {
                     newAtt.setBuffer(ByteBuffer.allocate(2048));
 
                     // 这里也可以继续使用匿名实现类，不过代码不好看，所以这里专门定义一个类
+                  	//从通道当中异步读取数据
                     client.read(newAtt.getBuffer(), newAtt, new ChannelHandler());
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -1072,15 +1090,7 @@ public static AsynchronousFileChannel open(Path file,
 
 这也是为什么 Netty/Mina 如此盛行的原因，因为它们帮助封装好了很多细节，提供给我们用户友好的接口，后面有时间我也会对 Netty 进行介绍。
 
- 回首页
-
 # Tomcat 中的 NIO 源码分析
-
-
-
-创建时间: 2018-03-20 13:00:00
-
-
 
 之前写了两篇关于 NIO 的文章，第一篇介绍了 NIO 的 Channel、Buffer、Selector 使用，第二篇介绍了非阻塞 IO 和异步 IO，并展示了简单的用例。
 
@@ -1876,3 +1886,36 @@ protected SocketProcessorBase<NioChannel> createSocketProcessor(
 5. Poller 循环 selector.select(xxx)，如果有通道 readable，那么在 processKey 中将其放到 worker 线程池中。
 
 后续的流程，感兴趣的读者请自行分析，本文就说到这里了。
+
+
+
+# IO和NIO的选择
+
+IO和NIO的区别主要体现在：
+
+| **IO**          | **NIO**         |
+| --------------- | --------------- |
+| Stream oriented | Buffer oriented |
+| Blocking IO     | Non blocking IO |
+|                 | Selectors       |
+
+IO面向Stream，每次读取一定数量的字节，并且不能在流中的数据中来回移动。如果需要来回移动从流读取的数据，则需要首先将其缓存到缓冲区中。
+
+NIO面向Buffer，每次读取一定数量的数据进入缓冲区，可以通过操纵缓冲区来处理数据。这增加了一些灵活性，但是同时也增加了一些数据处理的复杂度，因为需要知道缓冲区当中是否存有全部的数据并且要保证缓冲区数据的正确性。
+
+IO是阻塞式的读写方式，这就意味着每次读写操作未完成的时候，线程会阻塞在那里等待，什么也干不了，直到数据读写完毕。
+
+NIO则是非阻塞的读写方式，每次从通道进行数据读取的时候，有数据就读，没数据就返回，完全不会阻塞线程。这就意味着，我们没法在一次读写之后，确定缓冲区当中的数据是否是全部想要读取的数据。
+
+NIO通过Selector增加了对IO多路复用的支持，可以将不同的通道注册到Selector上，然后在一条单线程当中通过轮询的方式查看是否有准备好的通道可供读写。
+
+
+
+因此，
+
+NIO允许您仅使用一个(或几个)线程管理多个通道(网络连接或文件)，但代价是解析数据可能比从阻塞流读取数据要复杂一些。
+
+如果需要同时管理数千个打开的连接(每个连接只发送少量数据，例如聊天服务器)，那么在NIO中实现服务器可能是一个优势。类似地，如果您需要保持与其他计算机的大量开放连接，例如在P2P网络中，使用一个线程管理所有出站连接可能是一个优势。
+
+如果您有非常高带宽的少量连接，一次发送大量数据，那么经典的IO服务器实现可能是最佳选择。
+

@@ -1,32 +1,6 @@
-## Java I/O
+## IO结构
 
-### 基于字节的I/O操作接口
-
-### ByteStream
-
-* 字节流是最底层的I/O留，尽量避免使用。
-
-* 每次读取/写入一个字节，如图所示。
-
-![Simple byte stream input and output.](Java IO/byteStream.gif)
-
-
-
-
-
-### Java NIO
-
-​							 	 put
-
-​							   	 ↑
-
-Everywhere  => ChannelA===read===>Buffer===write===>ChannelB => Everywhere
-
-​							    	↓
-
-​							 	 get
-
-
+![I/Oæµ](Java IO/1240.png)
 
 
 
