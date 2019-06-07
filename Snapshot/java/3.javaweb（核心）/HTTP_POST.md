@@ -5,7 +5,7 @@
 我们知道，HTTP 协议是以 ASCII 码传输，建立在 TCP/IP 协议之上的应用层规范。规范把 HTTP 请求分为三个部分：状态行、请求头、消息主体。类似于下面这样：
 
 ```bash
-BASH<method> <request-URL> <version>
+<method> <request-URL> <version>
 <headers>
 
 <entity-body>
@@ -20,7 +20,7 @@ BASH<method> <request-URL> <version>
 这应该是最常见的 POST 提交数据的方式了。浏览器的原生 <form> 表单，如果不设置 `enctype` 属性，那么最终就会以 application/x-www-form-urlencoded 方式提交数据。请求类似于下面这样（无关的请求头在本文中都省略掉了）：
 
 ```bash
-BASHPOST http://www.example.com HTTP/1.1
+POST http://www.example.com HTTP/1.1
 Content-Type: application/x-www-form-urlencoded;charset=utf-8
 
 title=test&sub%5B%5D=1&sub%5B%5D=2&sub%5B%5D=3
@@ -35,7 +35,7 @@ title=test&sub%5B%5D=1&sub%5B%5D=2&sub%5B%5D=3
 这又是一个常见的 POST 数据提交的方式。我们使用表单上传文件时，必须让 <form> 表单的 `enctype` 等于 multipart/form-data。直接来看一个请求示例：
 
 ```bash
-BASHPOST http://www.example.com HTTP/1.1
+POST http://www.example.com HTTP/1.1
 Content-Type:multipart/form-data; boundary=----WebKitFormBoundaryrGKCBY7qhFd3TrwA
 
 ------WebKitFormBoundaryrGKCBY7qhFd3TrwA
@@ -76,7 +76,7 @@ $http.post(url, data).success(function(result) {
 最终发送的请求是：
 
 ```bash
-BASHPOST http://www.example.com HTTP/1.1 
+POST http://www.example.com HTTP/1.1 
 Content-Type: application/json;charset=utf-8
 
 {"title":"test","sub":[1,2,3]}
