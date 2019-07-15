@@ -1,5 +1,3 @@
-#Java内存区域与内存溢出异常
-
 ## 运行时数据区域
 
 ![Screen Shot 2019-05-28 at 1.21.49 PM](/Users/liuzhe/Documents/project/LZ/TechSnapshot/Snapshot/java/2.java高级/虚拟机/Java内存区域与内存溢出异常/Screen Shot 2019-05-28 at 1.21.49 PM.png)
