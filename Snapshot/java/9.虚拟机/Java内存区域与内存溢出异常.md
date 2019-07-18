@@ -1,6 +1,6 @@
 ## 运行时数据区域
 
-![Screen Shot 2019-05-28 at 1.21.49 PM](/Users/liuzhe/Documents/project/LZ/TechSnapshot/Snapshot/java/2.java高级/虚拟机/Java内存区域与内存溢出异常/Screen Shot 2019-05-28 at 1.21.49 PM.png)
+![Screen Shot 2019-05-28 at 1.21.49 PM](Java内存区域与内存溢出异常/Screen Shot 2019-05-28 at 1.21.49 PM.png)
 
 ### 程序计数器
 
@@ -164,11 +164,11 @@ Class文件有一项信息是常量池，用于存放编译期生成的各种字
 
 * 句柄访问
 
-![Screen Shot 2019-05-28 at 4.36.12 PM](/Users/liuzhe/Documents/project/LZ/TechSnapshot/Snapshot/java/2.java高级/虚拟机/Java内存区域与内存溢出异常/Screen Shot 2019-05-28 at 4.36.12 PM.png)
+![Screen Shot 2019-05-28 at 4.36.12 PM](Java内存区域与内存溢出异常/Screen Shot 2019-05-28 at 4.36.12 PM.png)
 
 * 直接指针
 
-![Screen Shot 2019-05-28 at 4.36.19 PM](/Users/liuzhe/Documents/project/LZ/TechSnapshot/Snapshot/java/2.java高级/虚拟机/Java内存区域与内存溢出异常/Screen Shot 2019-05-28 at 4.36.19 PM.png)
+![Screen Shot 2019-05-28 at 4.36.19 PM](Java内存区域与内存溢出异常/Screen Shot 2019-05-28 at 4.36.19 PM.png)
 
 
 

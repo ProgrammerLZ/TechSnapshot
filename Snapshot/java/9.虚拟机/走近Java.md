@@ -1,6 +1,6 @@
 ## Java技术体系
 
-![Java æ¦å¿µè®¾è®¡ â Java ææ¯](/Users/liuzhe/Documents/project/LZ/TechSnapshot/Snapshot/java/2.java高级/虚拟机/走近Java/2167990.jpg)
+![](走近Java/2167990.jpg)
 
 Java如果**按照功能**划分，可以这样划分：
 
