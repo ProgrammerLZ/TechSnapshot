@@ -26,7 +26,7 @@ public class MyDynamicProxy {
     }
 }
 
-interface Hello {s
+interface Hello {
     void sayHello();
 }
 
@@ -203,4 +203,4 @@ public Object invoke(Object proxy, Method method, Object[] args) throws Throwabl
 
 AOP能力的一个图解。
 
-![img](/Users/liuzhe/Documents/project/LZ/TechSnapshot/Snapshot/java/2.java高级/Java 动态代理/ba9a5b6228b188f5b9b15017e29a302b.png)
+![img](Java 动态代理/ba9a5b6228b188f5b9b15017e29a302b.png)

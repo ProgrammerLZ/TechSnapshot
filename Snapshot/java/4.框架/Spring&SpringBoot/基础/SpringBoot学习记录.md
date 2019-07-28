@@ -258,3 +258,12 @@ public class ReadingListServletInitializer extends SpringBootServletInitializer{
 nohup java -jar readinglist.jar --server.port=8090 &
 ```
 
+
+
+
+
+
+
+
+
+* 没有看到各个starter中有spring.factories这个文件啊

@@ -177,26 +177,59 @@
 
 
 ## 集合
-- [ ] ArrayList和LinkedList有什么区别。
+- [x] ArrayList和LinkedList有什么区别。
+
+  > ArrayList基于数组、LInkedList基于链表。一个便于查找，一个便于插入和删除
+
 - [ ] 用过哪些Map类，都有什么区别，HashMap是线程安全的吗,并发下使用的Map是什么，他们内部原理分别是什么，比如存储方式，hashcode，扩容，默认容量等。
+
+  > HashMap不是线程安全的，是基于哈希表进行实现的。
+
 - [ ] JAVA8的ConcurrentHashMap为什么放弃了分段锁，有什么问题吗，如果你来设计，你如何设计。 
-- [ ] 有没有有顺序的Map实现类，如果有，他们是怎么保证有序的。 
+
+- [x] 有没有有顺序的Map实现类，如果有，他们是怎么保证有序的。 
+
+  > LinkedHashMap在对其进行迭代的时候，可以按照插入顺序迭代出其内部元素。LinkedHashMap是由数组和双向链表进行实现的，双向链表是有序的所以就保证了迭代的顺序。
+
 - [ ] 抽象类和接口的区别，类可以继承多个类么，接口可以继承多个接口么,类可以实现多个接口么。
+
 - [ ] 继承和聚合的区别在哪。 
+
 - [ ] 讲讲类的实例化顺序，比如父类静态数据，构造函数，字段，子类静态数据，构造函数，字段，当new的时候，他们的执行顺序。
-- [ ]  Arraylist、linkedlist差异，应用场景；
-- [ ]  HashMap在JDK1.8有哪些改动？
-- [ ]  HashCurrentMap和HashMap的区别在哪里？
+
+- [ ] HashMap在JDK1.8有哪些改动？
+
+- [ ] HashCurrentMap和HashMap的区别在哪里？
+
 - [ ] Hashmap什么时候使用红黑树？
+
 - [ ] 列举几个Java中`Collection`类库中的常用类
-- [ ] List`、`Set`、`Map`是否都继承自`Collection`接口？存储特点分别是什么？
-- [ ] ArrayList`、`LinkedList`和`Vector`之间的区别与联系
+
+  > ArrayList LinkedList HashMap LinkedHashMap
+
+- [x] List`、`Set`、`Map`是否都继承自`Collection`接口？存储特点分别是什么？
+
+  > Map不从Collection接口继承。List是一个有序的集合，Set是一个内部元素不重复的集合，Map则是一种以key value形式存储的集合。
+
+- [x] ArrayList`、`LinkedList`和`Vector`之间的区别与联系
+
+  > Vector是线程安全的，其他两个不是。
+
 - [ ] HashMap`和`Hashtable`、`TreeMap`以及`ConcurrentHashMap`的区别
+
 - [ ] `Collection` 和 `Collections`的区别
+
+  > Collection是一个接口，在JDK当中表示一个集合。Collections是一个静态类，提供了一些关于集合的方便的静态方法。
+
 - [ ] 其他的集合类：`treeset`,`linkedhashmap`等。
-- [ ] List和Map区别，Arraylist与LinkedList区别，ArrayList与Vector 区别；
+
+  > TreeSet是一个有序的集合，基于红黑树进行实现。LinkedHashmap是一个有序的Map，基于数组和双向链表实现。
+
 - [ ] 红黑树的实现原理和应用场景；
+
 - [ ] HashMap内部的数据结构是什么？底层是怎么实现的？
+
+  > 散列表。散列表本质上是基于数组进行实现，通过一个散列函数来计算某个元素在数组中的下标，如果出现散列冲突，JDK通过链表法来解决冲突。
 
 
 ## JVM
