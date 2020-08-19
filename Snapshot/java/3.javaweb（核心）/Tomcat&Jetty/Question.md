@@ -1,4 +1,0 @@
-- [ ] 为什么Start-tomcat.launch能够让eclipse直接启动tomcat。
-- [ ] 为什么load方法非得要用反射。
-- [ ] digester是什么东西。
-- [ ] ClassLoader的作用。
